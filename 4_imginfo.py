@@ -25,7 +25,10 @@ elif len(img_gray.shape) == 2:
     print('흑백 영상')
 
 img1 = np.zeros((240,320,3), dtype=np.uint8) 
-    
+img2 = np.empty((240,320), dtype=np.uint8)
+img3 = np.ones((240,320), dtype=np.uint8) * 120
+img4 = np.full((240,320,3),(255, 102, 255), dtype=np.uint8)
+
 # for x in range(h):
 #     for y in range(w):
 #         img_color[x, y] = (255,102,255)
@@ -35,4 +38,15 @@ img1[:,:] = (255, 102, 255)
 
 
 cv2.imshow('img_color', img_color)
-cv2.waitKey()
+cv2.imshow('img1', img1)
+cv2.imshow('img2', img2)
+cv2.imshow('img3', img3)
+cv2.imshow('img4', img4)
+
+while True:
+    keyvalue = cv2.waitKey()
+    # ESC 키코드로 변경
+    if keyvalue == ord('i') or keyvalue == ord('I'):  
+        img_color = ~img_color  # 컬러 영상 반전
+        
+        break
