@@ -48,5 +48,6 @@ while True:
     # ESC 키코드로 변경
     if keyvalue == ord('i') or keyvalue == ord('I'):  
         img_color = ~img_color  # 컬러 영상 반전
-        
+        cv2.imhow('img_color',img_color)
+    elif keyvalue == 27:  # ESC 키
         break
