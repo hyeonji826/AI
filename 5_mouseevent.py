@@ -24,8 +24,15 @@ def on_mouse(event,x,y,flags,param):
 
 
 img = np.ones((500,500,3), dtype=np.uint8) * 255  # 흰색 배경
-cv2.namedWindow('img')  # 창 이름 설정
+cv2.namedWindow('img')
+
+cv2.rectangle(img,(50,200,150,100),(0,255,0),3) 
+cv2.rectangle(img,(300,200,150,100),(0,255,0),-1) 
+
+cv2.circle(img,(250,400),50,(255,0,0),3)
+
+cv2.putText(img, 'Hello', (50, 300), cv2.FONT_HERSHEY_DUPLEX, 0.7, (0,0,0))
+
 cv2.imshow('img', img)
-# 마우스가 img 창에 있을 때만 콜백으로 등록한 함수 호출
 cv2.setMouseCallback('img', on_mouse)
 cv2.waitKey(0)
