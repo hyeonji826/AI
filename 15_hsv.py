@@ -9,6 +9,12 @@ import cv2
 img = cv2.imread('./AI/images/candies.png')
 hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 
+airplane = cv2.imread('./AI/images/airplane.bmp')
+mask = cv2.imread('./AI/images/mask_plane.bmp')
+# 검정 배경 -> 0 , 흰색 객체 -> 1
+# 컴퓨터는 낮은 객체에서 높은 객체로 연산하는게 더 쉽게한다.
+field = cv2.imread('./AI/images/field.bmp')
+
 ''' 색상 H 값 (OpenCV 기준)
 빨강 (Red) 0 또는 179 
 주황 (Orange) 10~20
@@ -22,6 +28,14 @@ hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
 '''
 
 dst = cv2.inRange(hsv,(90,150,0),(130,255,255))
-cv2.imshow('img',img)
-cv2.imshow('dst',dst)
+
+#  copyTo : 선택적 복사
+# 마스크를 이용한 선택적 복사
+temp = cv2.copyTo(airplane,mask)
+cv2.copyTo(airplane, mask, field)
+
+# cv2.imshow('img',img)
+# cv2.imshow('dst',dst)
+cv2.imshow('temp',temp)
+cv2.imshow('field',field)
 cv2.waitKey()
