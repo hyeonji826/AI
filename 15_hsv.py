@@ -29,13 +29,13 @@ field = cv2.imread('./AI/images/field.bmp')
 
 dst = cv2.inRange(hsv,(90,150,0),(130,255,255))
 
+
 #  copyTo : 선택적 복사
 # 마스크를 이용한 선택적 복사
 temp = cv2.copyTo(airplane,mask)
 cv2.copyTo(airplane, mask, field)
 
-# cv2.imshow('img',img)
-# cv2.imshow('dst',dst)
+cv2.imshow('img',img)
+cv2.imshow('dst',dst)
 cv2.imshow('temp',temp)
-cv2.imshow('field',field)
 cv2.waitKey()
