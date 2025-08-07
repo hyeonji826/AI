@@ -5,7 +5,7 @@ import sys
 img = cv2.imread('./AI/images/namecard.jpg')
 h,w = img.shape[:2]
 
-dh = 100
+dh = 500
 # A4용지 크기 : 210mm*297mm
 dw = round(dh * 297 / 210)  # 출력될 크기
 
