@@ -5,7 +5,7 @@ import sys
 img = cv2.imread('./AI/images/namecard.jpg')
 h,w = img.shape[:2]
 
-dh = 500
+dh = 100
 # A4용지 크기 : 210mm*297mm
 dw = round(dh * 297 / 210)  # 출력될 크기
 
@@ -70,4 +70,15 @@ disp = drawROI(img,srcQuad)
 cv2.namedWindow('img')
 cv2.setMouseCallback('img',onMouse)
 cv2.imshow('img',disp)
+
+while True:
+    key = cv2.waitKey()
+    if key ==27:
+        sys.exit()
+    elif key == 13:
+        break
+
+pers =cv2.getPerspectiveTransform(srcQuad,dstQuad)
+dst = cv2.warpPerspective(img,pers,(dw,dh),flags=cv2.INTER_CUBIC)
+cv2.imshow('dst',dst)
 cv2.waitKey()
