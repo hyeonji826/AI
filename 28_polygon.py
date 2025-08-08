@@ -1,4 +1,5 @@
 import cv2
+import math
 
 def setLabel(img, pts, label):
     (x, y, w, h) = cv2.boundingRect(pts)
@@ -9,7 +10,6 @@ def setLabel(img, pts, label):
     
 img = cv2.imread('./AI/images/polygon.bmp')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
 # THRESH_BINARY_INV: 임계값 이상이면 검정(0), 임계값 미만이면 흰색(255)
 _, img_bin = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
 contours, _ = cv2.findContours(img_bin, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -25,6 +25,16 @@ for pts in contours:
         setLabel(img, pts, 'TRI')
     elif vtc == 4:
         setLabel(img, pts, 'RECT')
-
-cv2.imshow('img',img)
+    else:
+        length = cv2.arcLength(pts, True)
+        area = cv2.contourArea(pts)
+        # 4*math.pi * area / (length * length): 원형도를 구함
+        # 값의 범위: 0 ~ 1, 1에 가까울수록 원에 가까움
+        ratio = 4. * math.pi * area / (length * length)
+        if ratio > 0.8:
+            setLabel(img, pts, 'CIR')
+        else:
+            setLabel(img, pts, 'NONAME')
+            
+cv2.imshow('img', img)
 cv2.waitKey()
