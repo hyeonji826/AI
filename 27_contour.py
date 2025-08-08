@@ -1,12 +1,15 @@
 import cv2
 import random
 import numpy as np
-
 # 외각선
 # 영상에서 같은 색 또는 강도를 가진 경계선을 추적해 얻는 좌표 집합
 # 영상 분석에서 물체의 모양, 크기, 위치를 찾을 때 유용
 img = cv2.imread('./AI/images/contours.bmp', cv2.IMREAD_GRAYSCALE)
+milkdrop = cv2.imread('./AI/images/milkdrop.bmp', cv2.IMREAD_GRAYSCALE)
 
+_, img_bin = cv2.threshold(milkdrop, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+h, w = img.shape[:2]
+dst_milk = np.zeros((h, w, 3), np.uint8)
 # img: 이진 이미지 사용
 # mode: 컨투어 추출 방식
 # RETR_CCOMP: 2계층 구조로 모든 컨투어 추출
@@ -26,12 +29,15 @@ img = cv2.imread('./AI/images/contours.bmp', cv2.IMREAD_GRAYSCALE)
 contours, hierarchy = cv2.findContours(img, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
 # print(contours)
 # print(hierarchy)
-
-dst = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
-color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
-
-# 전체 외곽선을 한번에 그림
-cv2.drawContours(dst,contours,-1,color,3)
-cv2.imshow('img',img)
-cv2.imshow('dst',dst)
+milk_contours, _ = cv2.findContours(img_bin, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+dst = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+# 전체 외각선을 한 번에 그림
+cv2.drawContours(dst, contours, -1, color, 3)
+for i in range(len(milk_contours)):
+    color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    cv2.drawContours(dst_milk, milk_contours, i, color, 2)
+cv2.imshow('img', img)
+cv2.imshow('dst', dst)
+cv2.imshow('dst_milk', dst_milk)
 cv2.waitKey()
